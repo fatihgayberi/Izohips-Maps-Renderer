@@ -15,6 +15,7 @@ namespace Wonnasmith
         [SerializeField] private Texture2D texture2D;
 
         [Serializable]
+        /// <summary> pixel </summary>
         public class ElementIdxData
         {
             /// <summary> satır </summary>
@@ -25,37 +26,41 @@ namespace Wonnasmith
         }
 
         [Serializable]
+        /// <summary> yatay veya dikey şeritin kendisi </summary>
         public class LineData
         {
-            public LineForwardType lineForwardType;
+            /// <summary> şeritteki pixeller </summary>
             public List<ElementIdxData> elementList;
         }
 
         [Serializable]
-        class LineForwardData
+        /// <summary> Tipine göre şeritler </summary>
+        public class LineForwardData
         {
-            public List<LineData> LineDatas;
+            /// <summary> şeritin çiziliş tipi </summary>
+            public LineForwardType lineForwardType;
+
+            /// <summary> şeritlerin listesi </summary>
+            public List<LineData> LineDatasList;
         }
 
-        [SerializeField] LineForwardData lineForwardData;
+        /// <summary> Tipleri ile bütün şeritler </summary>
+        [SerializeField] private List<LineForwardData> lineForwardDataList;
 
         public enum LineForwardType
         {
-            /// <summary> Baştan sona </summary>
-            Fornt2End,
+            /// <summary> Sagdan sola </summary>
+            Right2Left,
 
-            /// <summary> Sondan başa </summary>
-            End2Fornt,
+            /// <summary> Soldan saga </summary>
+            Left2Right,
 
             /// <summary> Yukardan aşağı </summary>
             Up2Down,
 
             /// <summary> Aşağıdan yukarı </summary>
-            Dow2Up,
+            Down2Up,
         }
-
-        [SerializeField] private List<LineData> _front2End_LineList = new List<LineData>();
-        [SerializeField] private List<LineData> _end2Front_LineList = new List<LineData>();
 
         //============================================================================
 
@@ -82,21 +87,95 @@ namespace Wonnasmith
 
         private void OnPolygonSaveButtonClick()
         {
-            PolygonSaveData?.Invoke(_front2End_LineList, _end2Front_LineList);
+            PolygonSaveData?.Invoke(lineForwardDataList);
         }
 
         //============================================================================
 
         private void TextureDetection()
         {
-            Front2EndMove();
-            End2ForntMove();
+            LineForwardMove();
         }
 
         //============================================================================
 
-        /// <summary> baştan sona satırları gezer </summary>
-        private void Front2EndMove()
+        private void LineForwardMove()
+        {
+            TextureMove_Right2Left(LineForwardType.Right2Left);
+            TextureMove_Up2Down(LineForwardType.Up2Down);
+            TextureMove_Left2Right(LineForwardType.Left2Right);
+            TextureMove_Down2Up(LineForwardType.Down2Up);
+        }
+
+        //============================================================================
+
+        private LineForwardData GetAllLineDatasList(LineForwardType forwardType)
+        {
+            if (lineForwardDataList == null)
+            {
+                return null;
+            }
+
+            int lineForwardDataListCount = lineForwardDataList.Count;
+
+            for (int i = 0; i < lineForwardDataListCount; i++)
+            {
+                if (lineForwardDataList[i].lineForwardType == forwardType)
+                {
+                    return lineForwardDataList[i];
+                }
+            }
+
+            return null;
+        }
+
+        //============================================================================
+
+        private bool IsLineInAddedElement(ElementIdxData elementIdxData, LineForwardType currentLineForwardType)
+        {
+            int forwardTypeCount = System.Enum.GetValues(typeof(LineForwardType)).Length;
+
+            for (int i = 0; i < forwardTypeCount; i++)
+            {
+                LineForwardType lineForwardType = (LineForwardType)i;
+
+                if (currentLineForwardType != lineForwardType)
+                {
+                    LineForwardData lineForwardData = GetAllLineDatasList((LineForwardType)i);
+
+                    if (lineForwardData != null)
+                    {
+                        int LineDatasListCount = lineForwardData.LineDatasList.Count;
+
+                        for (int j = 0; j < LineDatasListCount; j++)
+                        {
+                            if (lineForwardData.LineDatasList[j] != null)
+                            {
+                                if (lineForwardData.LineDatasList[j].elementList != null)
+                                {
+                                    int elementListCount = lineForwardData.LineDatasList[j].elementList.Count;
+
+                                    for (int k = 0; k < elementListCount; k++)
+                                    {
+                                        if (lineForwardData.LineDatasList[j].elementList[k] == elementIdxData)
+                                        {
+                                            return true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        //============================================================================
+
+        /// <summary> verilen tipte png yi gezer </summary>
+        private void TextureMove_Right2Left(LineForwardType lineForwardType)
         {
             if (texture2D == null)
             {
@@ -105,6 +184,13 @@ namespace Wonnasmith
 
             int textureRow = texture2D.height;
             int textureColumn = texture2D.width;
+
+            LineForwardData lineForwardData = GetAllLineDatasList(lineForwardType);
+
+            if (lineForwardData == null)
+            {
+                return;
+            }
 
             for (int row = 0; row < textureRow; row++)
             {
@@ -121,6 +207,11 @@ namespace Wonnasmith
 
                         if (elementIdxData != null)
                         {
+                            if (IsLineInAddedElement(elementIdxData, lineForwardType))
+                            {
+                                break;
+                            }
+
                             newLine = new LineData();
 
                             if (newLine.elementList == null)
@@ -137,15 +228,15 @@ namespace Wonnasmith
 
                 if (newLine != null)
                 {
-                    _front2End_LineList.Add(newLine);
+                    lineForwardData.LineDatasList.Add(newLine);
                 }
             }
         }
 
         //============================================================================
 
-        /// <summary> sondan başa satırları gezer </summary>
-        private void End2ForntMove()
+        /// <summary> verilen tipte png yi gezer </summary>
+        private void TextureMove_Left2Right(LineForwardType lineForwardType)
         {
             if (texture2D == null)
             {
@@ -155,11 +246,18 @@ namespace Wonnasmith
             int textureRow = texture2D.height;
             int textureColumn = texture2D.width;
 
+            LineForwardData lineForwardData = GetAllLineDatasList(lineForwardType);
+
+            if (lineForwardData == null)
+            {
+                return;
+            }
+
             for (int row = 0; row < textureRow; row++)
             {
                 LineData newLine = null;
 
-                for (int column = textureColumn - 1; column >= 0; column--)
+                for (int column = textureColumn; column >= 0; column--)
                 {
                     if (IsPixelWhite(row, column))
                     {
@@ -170,6 +268,11 @@ namespace Wonnasmith
 
                         if (elementIdxData != null)
                         {
+                            if (IsLineInAddedElement(elementIdxData, lineForwardType))
+                            {
+                                break;
+                            }
+
                             newLine = new LineData();
 
                             if (newLine.elementList == null)
@@ -184,10 +287,131 @@ namespace Wonnasmith
                     }
                 }
 
+                if (newLine != null)
+                {
+                    lineForwardData.LineDatasList.Add(newLine);
+                }
+            }
+        }
+
+        //============================================================================
+
+        /// <summary> verilen tipte png yi gezer </summary>
+        private void TextureMove_Up2Down(LineForwardType lineForwardType)
+        {
+            if (texture2D == null)
+            {
+                return;
+            }
+
+            int textureRow = texture2D.height;
+            int textureColumn = texture2D.width;
+
+            LineForwardData lineForwardData = GetAllLineDatasList(lineForwardType);
+
+            if (lineForwardData == null)
+            {
+                return;
+            }
+
+            for (int column = 0; column < textureColumn; column++)
+            {
+                LineData newLine = null;
+
+                for (int row = 0; row < textureRow; row++)
+                {
+                    if (IsPixelWhite(row, column))
+                    {
+                        ElementIdxData elementIdxData = new ElementIdxData();
+
+                        elementIdxData.row = row;
+                        elementIdxData.column = column;
+
+                        if (elementIdxData != null)
+                        {
+                            if (IsLineInAddedElement(elementIdxData, lineForwardType))
+                            {
+                                break;
+                            }
+
+                            newLine = new LineData();
+
+                            if (newLine.elementList == null)
+                            {
+                                newLine.elementList = new List<ElementIdxData>();
+                            }
+
+                            newLine.elementList.Add(elementIdxData);
+                        }
+
+                        break;
+                    }
+                }
 
                 if (newLine != null)
                 {
-                    _end2Front_LineList.Add(newLine);
+                    lineForwardData.LineDatasList.Add(newLine);
+                }
+            }
+        }
+
+        //============================================================================
+
+        /// <summary> verilen tipte png yi gezer </summary>
+        private void TextureMove_Down2Up(LineForwardType lineForwardType)
+        {
+            if (texture2D == null)
+            {
+                return;
+            }
+
+            int textureRow = texture2D.height;
+            int textureColumn = texture2D.width;
+
+            LineForwardData lineForwardData = GetAllLineDatasList(lineForwardType);
+
+            if (lineForwardData == null)
+            {
+                return;
+            }
+
+            for (int column = textureColumn; column >= 0; column--)
+            {
+                LineData newLine = null;
+
+                for (int row = textureRow; row > 0; row--)
+                {
+                    if (IsPixelWhite(row, column))
+                    {
+                        ElementIdxData elementIdxData = new ElementIdxData();
+
+                        elementIdxData.row = row;
+                        elementIdxData.column = column;
+
+                        if (elementIdxData != null)
+                        {
+                            if (IsLineInAddedElement(elementIdxData, lineForwardType))
+                            {
+                                break;
+                            }
+
+                            newLine = new LineData();
+
+                            if (newLine.elementList == null)
+                            {
+                                newLine.elementList = new List<ElementIdxData>();
+                            }
+
+                            newLine.elementList.Add(elementIdxData);
+                        }
+
+                        break;
+                    }
+                }
+
+                if (newLine != null)
+                {
+                    lineForwardData.LineDatasList.Add(newLine);
                 }
             }
         }

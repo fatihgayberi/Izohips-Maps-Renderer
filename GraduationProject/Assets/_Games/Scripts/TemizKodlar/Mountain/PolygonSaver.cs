@@ -10,12 +10,16 @@ namespace Wonnasmith
 {
     public class PolygonSaver : MonoBehaviour
     {
-        public delegate void PolygonSaver_PolygonSaveData(List<PolygonFinder.LineData> front2End_LineList, List<PolygonFinder.LineData> end2Front_LineList);
+        public delegate void PolygonSaver_PolygonSaveData(List<PolygonFinder.LineForwardData> lineForwardDataList);
 
         [SerializeField] private UnityEngine.PrimitiveType primitiveTestObject;
         // [SerializeField] private List<GameObject> polygonParent;
+
+        [SerializeField] private LineRenderer lineRenderer;
         [SerializeField] private Transform polygonParentTR;
         [SerializeField] private GameObject testObj;
+
+        private List<Vector3> positionList = new List<Vector3>();
 
         //============================================================================
 
@@ -31,10 +35,43 @@ namespace Wonnasmith
 
         //============================================================================
 
-        private void OnPolygonSaveData(List<PolygonFinder.LineData> front2End_LineList, List<PolygonFinder.LineData> end2Front_LineList)
+        private void OnPolygonSaveData(List<PolygonFinder.LineForwardData> lineForwardDataList)
         {
-            LineDataTestObjectGenerator(front2End_LineList);
-            LineDataTestObjectGenerator(end2Front_LineList);
+            int forwardTypeCount = System.Enum.GetValues(typeof(PolygonFinder.LineForwardType)).Length;
+
+            for (int i = 0; i < forwardTypeCount; i++)
+            {
+                PolygonFinder.LineForwardType lineForwardType = (PolygonFinder.LineForwardType)i;
+
+                PolygonFinder.LineForwardData lineForwardData = GetAllLineDatasList(lineForwardDataList, (PolygonFinder.LineForwardType)i);
+
+                if (lineForwardData != null)
+                {
+                    LineDataTestObjectGenerator(lineForwardData.LineDatasList);
+                }
+            }
+        }
+
+        //============================================================================
+
+        private PolygonFinder.LineForwardData GetAllLineDatasList(List<PolygonFinder.LineForwardData> lineForwardDataList, PolygonFinder.LineForwardType forwardType)
+        {
+            if (lineForwardDataList == null)
+            {
+                return null;
+            }
+
+            int lineForwardDataListCount = lineForwardDataList.Count;
+
+            for (int i = 0; i < lineForwardDataListCount; i++)
+            {
+                if (lineForwardDataList[i].lineForwardType == forwardType)
+                {
+                    return lineForwardDataList[i];
+                }
+            }
+
+            return null;
         }
 
         //============================================================================
@@ -78,7 +115,8 @@ namespace Wonnasmith
                                     {
                                         Vector3 pos = Pixel2Vector3Position(lineDataList[i].elementList[j]);
 
-                                        TestObjectGenerator(pos);
+                                        // positionList.Add(pos);
+                                        TestObjectGenerator(pos, lineDataList[i].elementList[j].row, lineDataList[i].elementList[j].column);
 
                                         elementIdxData = null;
                                     }
@@ -88,6 +126,8 @@ namespace Wonnasmith
                     }
                 }
             }
+
+            // LineRendererGenerator();
         }
 
         //============================================================================
@@ -99,9 +139,23 @@ namespace Wonnasmith
 
         //============================================================================
 
-        private void TestObjectGenerator(Vector3 pos)
+        private void LineRendererGenerator()
         {
-            Instantiate(testObj, pos, Quaternion.identity, polygonParentTR);
+            if (lineRenderer == null)
+            {
+                return;
+            }
+
+            lineRenderer.positionCount = positionList.Count;
+
+            lineRenderer.SetPositions(positionList.ToArray());
+        }
+
+        //============================================================================
+
+        private void TestObjectGenerator(Vector3 pos, int row, int column)
+        {
+            Instantiate(testObj, pos, Quaternion.identity, polygonParentTR).name = "[" + row + "]::[" + column + "]";
         }
 
         //============================================================================
