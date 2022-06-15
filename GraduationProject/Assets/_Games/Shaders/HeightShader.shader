@@ -1,5 +1,5 @@
 // Built as part of World of Zero: https://youtu.be/AK8oV4BzrW4
-Shader "Wonnasmith/HeightShader" 
+Shader "Wonnasmith_Object/HeightShader" 
 {
 	Properties 
 	{

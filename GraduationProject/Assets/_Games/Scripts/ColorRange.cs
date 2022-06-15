@@ -32,7 +32,7 @@ namespace Wonnasmith
 
         void Awake()
         {
-            // material = new Material(Shader.Find("Wonnasmith/ChanelMixer"));
+            // material = new Material(Shader.Find("Wonnasmith_Object/ChanelMixer"));
             // material.SetColor("_R", colorDatas.R);
             // material.SetColor("_G", colorDatas.G);
             // material.SetColor("_B", colorDatas.B);

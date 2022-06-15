@@ -1,4 +1,4 @@
-Shader "Wonnasmith/EdgeDetection"
+Shader "Wonnasmith_Object/EdgeDetection"
 {
     Properties
     {
