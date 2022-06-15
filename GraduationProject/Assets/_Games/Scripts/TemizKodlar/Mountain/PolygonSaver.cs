@@ -11,6 +11,7 @@ namespace Wonnasmith
     public class PolygonSaver : MonoBehaviour
     {
         public delegate void PolygonSaver_PolygonSaveData(List<PolygonFinder.LineForwardData> lineForwardDataList);
+        public delegate void PolygonSaver_MountSaveData(PolygonFinder.Mount mount);
 
         [SerializeField] private UnityEngine.PrimitiveType primitiveTestObject;
         // [SerializeField] private List<GameObject> polygonParent;

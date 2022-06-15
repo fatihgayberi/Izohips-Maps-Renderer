@@ -8,9 +8,13 @@ namespace Wonnasmith
     public class PolygonFinder : MonoBehaviour
     {
         public static event PolygonSaver.PolygonSaver_PolygonSaveData PolygonSaveData;
+        public static event PolygonSaver.PolygonSaver_MountSaveData MountSaveData;
+
+        public static event TestQuadController.TestQuadController_TextureChange TextureChange;
 
         [SerializeField] private Color blackColor;
         [SerializeField] private Color whiteColor;
+        [SerializeField] private Color selectColor;
 
         [SerializeField] private Texture2D texture2D;
 
@@ -46,6 +50,23 @@ namespace Wonnasmith
 
         /// <summary> Tipleri ile bütün şeritler </summary>
         [SerializeField] private List<LineForwardData> lineForwardDataList;
+
+
+        [Serializable]
+        /// <summary> Polygondaki bütün elementler </summary>
+        public class PolygonPixels
+        {
+            public List<ElementIdxData> polygonInElementIdxDataList;
+        }
+
+        [Serializable]
+        /// <summary> Bütün polygonları tutar </summary>
+        public class Mount
+        {
+            public List<PolygonPixels> polygonPixelsList;
+        }
+
+        [SerializeField] private Mount mount = new Mount();
 
         public enum LineForwardType
         {
@@ -88,13 +109,72 @@ namespace Wonnasmith
         private void OnPolygonSaveButtonClick()
         {
             PolygonSaveData?.Invoke(lineForwardDataList);
+
+            TextureEditor();
+        }
+
+        //============================================================================
+
+        private void ClearData()
+        {
+            for (int i = 0; i < lineForwardDataList.Count; i++)
+            {
+                lineForwardDataList[i].LineDatasList.Clear();
+            }
         }
 
         //============================================================================
 
         private void TextureDetection()
         {
+            ClearData();
             LineForwardMove();
+            PolygonListAdd();
+        }
+
+        //============================================================================
+
+        private void PolygonListAdd()
+        {
+            if (lineForwardDataList == null)
+            {
+                return;
+            }
+
+            int lineForwardDataListCount = lineForwardDataList.Count;
+
+            PolygonPixels polygonPixels = new PolygonPixels();
+
+            polygonPixels.polygonInElementIdxDataList = new List<ElementIdxData>();
+
+            for (int i = 0; i < lineForwardDataListCount; i++)
+            {
+                int lineDatasListCount = lineForwardDataList[i].LineDatasList.Count;
+
+                for (int j = 0; j < lineDatasListCount; j++)
+                {
+                    int elementListCount = lineForwardDataList[i].LineDatasList[j].elementList.Count;
+
+                    for (int k = 0; k < elementListCount; k++)
+                    {
+                        ElementIdxData elementIdxData = lineForwardDataList[i].LineDatasList[j].elementList[k];
+
+                        polygonPixels.polygonInElementIdxDataList.Add(elementIdxData);
+                    }
+                }
+            }
+
+            if (polygonPixels == null)
+            {
+                return;
+            }
+
+            if (mount.polygonPixelsList == null)
+            {
+                mount.polygonPixelsList = new List<PolygonPixels>();
+            }
+
+            mount.polygonPixelsList.Add(polygonPixels);
         }
 
         //============================================================================
@@ -444,6 +524,55 @@ namespace Wonnasmith
             }
 
             return false;
+        }
+
+        //============================================================================
+
+        private void TextureEditor()
+        {
+            if (texture2D == null)
+            {
+                return;
+            }
+
+            if (mount == null)
+            {
+                return;
+            }
+
+            if (mount.polygonPixelsList == null)
+            {
+                return;
+            }
+
+            int polygonPixelsListCount = mount.polygonPixelsList.Count;
+
+            if (polygonPixelsListCount <= 0)
+            {
+                return;
+            }
+
+            PolygonPixels polygonPixels = mount.polygonPixelsList[polygonPixelsListCount - 1];
+
+            if (polygonPixels == null)
+            {
+                return;
+            }
+
+            int polygonInElementIdxDataListCount = polygonPixels.polygonInElementIdxDataList.Count;
+
+            for (int i = 0; i < polygonInElementIdxDataListCount; i++)
+            {
+                ElementIdxData elementIdxData = polygonPixels.polygonInElementIdxDataList[i];
+
+                if (elementIdxData != null)
+                {
+                    texture2D.SetPixel(elementIdxData.row, elementIdxData.column, selectColor);
+                }
+
+            }
+
+            TextureChange?.Invoke(texture2D);
         }
     }
 }
