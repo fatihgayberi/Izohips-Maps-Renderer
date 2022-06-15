@@ -50,7 +50,7 @@ namespace Wonnasmith
 
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-    //ArrayExtensionMethods======================================================//
+    //ArrayExtensionMethods=====================================================//
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
     #region "T[] Array ile ilgili extension metodlar"
     public static class ArrayExtensionMethods
