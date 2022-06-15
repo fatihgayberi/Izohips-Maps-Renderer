@@ -3,9 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using MountainDatas = Wonnasmith.PngDataController.MountainDatas;
-using MountainPolygon = Wonnasmith.PngDataController.MountainDatas.MountainPolygon;
-
 namespace Wonnasmith
 {
     public class PolygonSaver : MonoBehaviour
@@ -13,10 +10,6 @@ namespace Wonnasmith
         public delegate void PolygonSaver_PolygonSaveData(List<PolygonFinder.LineForwardData> lineForwardDataList);
         public delegate void PolygonSaver_MountSaveData(PolygonFinder.Mount mount);
 
-        [SerializeField] private UnityEngine.PrimitiveType primitiveTestObject;
-        // [SerializeField] private List<GameObject> polygonParent;
-
-        [SerializeField] private LineRenderer lineRenderer;
         [SerializeField] private Transform polygonParentTR;
         [SerializeField] private GameObject testObj;
 
@@ -88,35 +81,27 @@ namespace Wonnasmith
             int elementListCount = 0;
 
             PolygonFinder.ElementIdxData elementIdxData = null;
-            // Debug.Log("LineDataTestObjectGenerator_BAŞLADI");
 
             for (int i = 0; i < lineDataListCount; i++)
             {
                 if (lineDataList[i] != null)
                 {
-                    // Debug.Log("LineDataTestObjectGenerator_1");
-
                     if (lineDataList[i].elementList != null)
                     {
                         if (lineDataList[i].elementList.Count > 0)
                         {
-                            // Debug.Log("LineDataTestObjectGenerator_2");
-
                             elementListCount = lineDataList[i].elementList.Count;
 
                             for (int j = 0; j < elementListCount; j++)
                             {
                                 if (lineDataList[i].elementList[j] != null)
                                 {
-                                    // Debug.Log("LineDataTestObjectGenerator_3");
-
                                     elementIdxData = lineDataList[i].elementList[j];
 
                                     if (elementIdxData != null)
                                     {
                                         Vector3 pos = Pixel2Vector3Position(lineDataList[i].elementList[j]);
 
-                                        // positionList.Add(pos);
                                         TestObjectGenerator(pos, lineDataList[i].elementList[j].row, lineDataList[i].elementList[j].column);
 
                                         elementIdxData = null;
@@ -127,8 +112,6 @@ namespace Wonnasmith
                     }
                 }
             }
-
-            // LineRendererGenerator();
         }
 
         //============================================================================
@@ -136,20 +119,6 @@ namespace Wonnasmith
         private Vector3 Pixel2Vector3Position(PolygonFinder.ElementIdxData elementIdxData)
         {
             return new Vector3(elementIdxData.column, 0, elementIdxData.row);
-        }
-
-        //============================================================================
-
-        private void LineRendererGenerator()
-        {
-            if (lineRenderer == null)
-            {
-                return;
-            }
-
-            lineRenderer.positionCount = positionList.Count;
-
-            lineRenderer.SetPositions(positionList.ToArray());
         }
 
         //============================================================================

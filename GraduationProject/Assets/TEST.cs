@@ -1,32 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class TEST : MonoBehaviour
+namespace Wonnasmith
 {
-    public int length_1 = 2;
-    public int length_2 = 5;
-
-    // Start is called before the first frame update
-    async void Start()
+    public class TEST : MonoBehaviour
     {
-        for (int i = 0; i < length_1; i++)
+        public static event UIImageController.UIImageController_TextureChange TextureChange;
+        [SerializeField] private Texture2D texture2D;
+
+        public int x;
+        public int y;
+        public Color selectColor;
+
+        [SerializeField] private Image uıImage;
+
+        public bool isTEST;
+
+        // Start is called before the first frame update
+        void Start()
         {
-            for (int j = 0; j < length_2; j++)
+
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            if (isTEST)
             {
-                if (j == 3)
+                isTEST = false;
+
+                if (uıImage == null)
                 {
-                    break;
+                    return;
                 }
 
-                Debug.Log(i + "::::" + j);
+                if (texture2D == null)
+                {
+                    return;
+                }
+
+                texture2D.SetPixel(x, y, selectColor);
+                texture2D.Apply();
+
+                Rect rec = new Rect(0, 0, texture2D.width, texture2D.height);
+                uıImage.sprite = Sprite.Create(texture2D, rec, new Vector2(0.5f, 0.5f), 100);
             }
+
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

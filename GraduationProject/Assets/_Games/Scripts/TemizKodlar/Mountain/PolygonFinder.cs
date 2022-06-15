@@ -10,7 +10,7 @@ namespace Wonnasmith
         public static event PolygonSaver.PolygonSaver_PolygonSaveData PolygonSaveData;
         public static event PolygonSaver.PolygonSaver_MountSaveData MountSaveData;
 
-        public static event TestQuadController.TestQuadController_TextureChange TextureChange;
+        public static event UIImageController.UIImageController_TextureChange TextureChange;
 
         [SerializeField] private Color blackColor;
         [SerializeField] private Color whiteColor;
@@ -569,8 +569,9 @@ namespace Wonnasmith
                 {
                     texture2D.SetPixel(elementIdxData.row, elementIdxData.column, selectColor);
                 }
-
             }
+
+            texture2D.Apply();
 
             TextureChange?.Invoke(texture2D);
         }

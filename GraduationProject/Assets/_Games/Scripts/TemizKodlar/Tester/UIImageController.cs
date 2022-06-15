@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Wonnasmith
 {
-    public class TestQuadController : MonoBehaviour
+    public class UIImageController : MonoBehaviour
     {
-        public delegate void TestQuadController_TextureChange(Texture texture);
+        public delegate void UIImageController_TextureChange(Texture2D texture2D);
 
         [SerializeField] private MeshRenderer meshRenderer;
+        [SerializeField] private Image uıImage;
 
         //============================================================================
 
@@ -24,21 +26,20 @@ namespace Wonnasmith
 
         //============================================================================
 
-        private void OnTextureChange(Texture texture)
+        private void OnTextureChange(Texture2D texture2D)
         {
-            if (meshRenderer == null)
+            if (uıImage == null)
             {
                 return;
             }
 
-            if (meshRenderer.material == null)
+            if (texture2D == null)
             {
                 return;
             }
 
-            Debug.Log("OnTextureChange::");
-
-            meshRenderer.material.mainTexture = texture;
+            Rect rec = new Rect(0, 0, texture2D.width, texture2D.height);
+            uıImage.sprite = Sprite.Create(texture2D, rec, new Vector2(0.5f, 0.5f), 100);
         }
     }
 }
