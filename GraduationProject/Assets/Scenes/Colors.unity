@@ -152,7 +152,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &20141015
 MonoBehaviour:
@@ -199,7 +199,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &277962175
 MonoBehaviour:
@@ -215,55 +215,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
   pngDataController: {fileID: 0}
---- !u!1 &297744118
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 297744120}
-  - component: {fileID: 297744119}
-  m_Layer: 0
-  m_Name: TEST_DELETE_ME
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &297744119
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 297744118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45c09e96a80bf364fb0ce5ba72936a53, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  texture2D: {fileID: 2800000, guid: 344c6a330fe85ca44b47c1e3ad63fb81, type: 3}
-  x: 0
-  y: 0
-  selectColor: {r: 0.27705407, g: 1, b: 0, a: 1}
-  "u\u0131Image": {fileID: 1207886133}
-  isTEST: 0
---- !u!4 &297744120
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 297744118}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &312776332
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,7 +517,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &926110726
 GameObject:
@@ -601,7 +552,6 @@ MonoBehaviour:
     polygonFinder_BUTTON: 48
     polygonSimule_BUTTON: 57
     polygonsSave_BUTTON: 56
-    planeResize_BUTTON: 0
 --- !u!4 &926110728
 Transform:
   m_ObjectHideFlags: 0
@@ -614,7 +564,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1018044924
 GameObject:
@@ -680,7 +630,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1207287421
 GameObject:
@@ -776,7 +726,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1207886131
 GameObject:
@@ -929,11 +879,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1340021706}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -127.7, z: 0}
   m_LocalScale: {x: 512, y: 512, z: 512}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1340021710
 MonoBehaviour:
@@ -980,7 +930,7 @@ Transform:
   - {fileID: 312776335}
   - {fileID: 680672828}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1527669446
 GameObject:
@@ -1075,7 +1025,7 @@ RectTransform:
   m_Children:
   - {fileID: 1207886132}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1110,7 +1060,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1819375056
 GameObject:
@@ -1143,6 +1093,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebde2ca9a27a0a6439c2d42f9f2dc124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  polygonParentTR: {fileID: 1799371869}
+  testObj: {fileID: 5989822272665228253, guid: d7b33a21bd1fd124b90135afad8761ae, type: 3}
+  height: 10
 --- !u!4 &1819375058
 Transform:
   m_ObjectHideFlags: 0
@@ -1155,7 +1108,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1819375059
 MonoBehaviour:
@@ -1172,7 +1125,7 @@ MonoBehaviour:
   blackColor: {r: 0, g: 0, b: 0, a: 1}
   whiteColor: {r: 1, g: 1, b: 1, a: 1}
   selectColor: {r: 0.06978583, g: 1, b: 0, a: 1}
-  texture2D: {fileID: 2800000, guid: 3be8d256eb341b445bf27d7a5a6559a3, type: 3}
+  texture2D: {fileID: 2800000, guid: b87aaf2d0ad5c6a44a62e851db20db2b, type: 3}
   lineForwardDataList:
   - lineForwardType: 0
     LineDatasList: []
@@ -1196,6 +1149,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6a3331b413d16e4e9ff3ec3ceb1dd80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  polygonParentTR: {fileID: 1799371869}
-  testObj: {fileID: 5989822272665228253, guid: d7b33a21bd1fd124b90135afad8761ae, type: 3}
-  height: 10

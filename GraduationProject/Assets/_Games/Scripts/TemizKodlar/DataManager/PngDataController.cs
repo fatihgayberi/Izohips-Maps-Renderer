@@ -8,6 +8,8 @@ namespace Wonnasmith
     [Serializable]
     public class PngDataController : MonoBehaviour
     {
+        public delegate void PngDataController_PngDataSave(Mount mountDatas, Texture2D texture2D);
+
         public struct JsonFileName
         {
             private const string allPngDatasJsonFileName = "/AllPngDatas.json";
@@ -21,7 +23,7 @@ namespace Wonnasmith
 
         public class PngData
         {
-            public List<MountainDatas> mountainDatasList;
+            public List<MountainDatas> mountainDatasList = new List<MountainDatas>();
         }
 
         [Serializable]
@@ -32,7 +34,7 @@ namespace Wonnasmith
             public int pngWidth;
             public int pngHeight;
 
-            public List<MountainPolygon> mountainPolygonList;
+            public Mount mount;
 
             [Serializable]
             public class MountainPolygon
@@ -41,8 +43,22 @@ namespace Wonnasmith
             }
         }
 
-        public void SavePngDatas(MountainDatas newMountainDatas)
+        private void OnEnable()
         {
+            PolygonSaver.PngDataSave += OnPngDataSave;
+        }
+
+        private void OnDisable()
+        {
+            PolygonSaver.PngDataSave -= OnPngDataSave;
+        }
+
+        private void OnPngDataSave(Mount mountDatas, Texture2D texture2D)
+        {
+            dataManager = GetComponent<DataManager>();
+
+            MountainDatas mountainDatas = new MountainDatas();
+
             PngData pngData = LoadPngDatas();
 
             if (pngData == null)
@@ -50,7 +66,12 @@ namespace Wonnasmith
                 pngData = new PngData();
             }
 
-            pngData.mountainDatasList.Add(newMountainDatas);
+            mountainDatas.mount = mountDatas;
+            mountainDatas.pngName = texture2D.name;
+            mountainDatas.pngWidth = texture2D.width;
+            mountainDatas.pngHeight = texture2D.height;
+
+            pngData.mountainDatasList.Add(mountainDatas);
 
             dataManager = GetComponent<DataManager>();
             dataManager.SetDatas(pngData, jsonFileName.GetAllPngDatasJsonFileName());
@@ -62,15 +83,5 @@ namespace Wonnasmith
             return dataManager.GetDatas<PngData>(jsonFileName.GetAllPngDatasJsonFileName());
         }
 
-        public bool jsonParse;
-        private void Update()
-        {
-            if (jsonParse)
-            {
-                jsonParse = false;
-                MountainDatas newMountainDatas = new MountainDatas();
-                SavePngDatas(newMountainDatas);
-            }
-        }
     }
 }

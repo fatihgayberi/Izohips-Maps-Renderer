@@ -5,9 +5,68 @@ using UnityEngine;
 
 namespace Wonnasmith
 {
+    public enum LineForwardType
+    {
+        /// <summary> Sagdan sola </summary>
+        Right2Left,
+
+        /// <summary> Soldan saga </summary>
+        Left2Right,
+
+        /// <summary> Yukardan aşağı </summary>
+        Up2Down,
+
+        /// <summary> Aşağıdan yukarı </summary>
+        Down2Up,
+    }
+
+    [Serializable]
+    /// <summary> yatay veya dikey şeritin kendisi </summary>
+    public class LineData
+    {
+        /// <summary> şeritteki pixeller </summary>
+        public List<ElementIdxData> elementList;
+    }
+
+    [Serializable]
+    /// <summary> pixel </summary>
+    public class ElementIdxData
+    {
+        /// <summary> satır </summary>
+        public int row = -1;
+
+        /// <summary> sütun </summary>
+        public int column = -1;
+    }
+
+    [Serializable]
+    /// <summary> Tipine göre şeritler </summary>
+    public class LineForwardData
+    {
+        /// <summary> şeritin çiziliş tipi </summary>
+        public LineForwardType lineForwardType;
+
+        /// <summary> şeritlerin listesi </summary>
+        public List<LineData> LineDatasList;
+    }
+
+    [Serializable]
+    /// <summary> Polygondaki bütün elementler </summary>
+    public class PolygonPixels
+    {
+        public List<ElementIdxData> polygonInElementIdxDataList;
+    }
+
+    [Serializable]
+    /// <summary> Bütün polygonları tutar </summary>
+    public class Mount
+    {
+        public List<PolygonPixels> polygonPixelsList;
+    }
+
     public class PolygonFinder : MonoBehaviour
     {
-        public static event PolygonSaver.PolygonSaver_PolygonSaveData PolygonSaveData;
+        public static event PolygonGenerator.PolygonGenerator_PolygonGenerateData PolygonGenerateData;
         public static event PolygonSaver.PolygonSaver_MountSaveData MountSaveData;
 
         public static event UIImageController.UIImageController_TextureChange TextureChange;
@@ -18,70 +77,10 @@ namespace Wonnasmith
 
         [SerializeField] private Texture2D texture2D;
 
-        [Serializable]
-        /// <summary> pixel </summary>
-        public class ElementIdxData
-        {
-            /// <summary> satır </summary>
-            public int row = -1;
-
-            /// <summary> sütun </summary>
-            public int column = -1;
-        }
-
-        [Serializable]
-        /// <summary> yatay veya dikey şeritin kendisi </summary>
-        public class LineData
-        {
-            /// <summary> şeritteki pixeller </summary>
-            public List<ElementIdxData> elementList;
-        }
-
-        [Serializable]
-        /// <summary> Tipine göre şeritler </summary>
-        public class LineForwardData
-        {
-            /// <summary> şeritin çiziliş tipi </summary>
-            public LineForwardType lineForwardType;
-
-            /// <summary> şeritlerin listesi </summary>
-            public List<LineData> LineDatasList;
-        }
-
         /// <summary> Tipleri ile bütün şeritler </summary>
         [SerializeField] private List<LineForwardData> lineForwardDataList;
 
-
-        [Serializable]
-        /// <summary> Polygondaki bütün elementler </summary>
-        public class PolygonPixels
-        {
-            public List<ElementIdxData> polygonInElementIdxDataList;
-        }
-
-        [Serializable]
-        /// <summary> Bütün polygonları tutar </summary>
-        public class Mount
-        {
-            public List<PolygonPixels> polygonPixelsList;
-        }
-
         [SerializeField] private Mount mount = new Mount();
-
-        public enum LineForwardType
-        {
-            /// <summary> Sagdan sola </summary>
-            Right2Left,
-
-            /// <summary> Soldan saga </summary>
-            Left2Right,
-
-            /// <summary> Yukardan aşağı </summary>
-            Up2Down,
-
-            /// <summary> Aşağıdan yukarı </summary>
-            Down2Up,
-        }
 
         //============================================================================
 
@@ -89,12 +88,23 @@ namespace Wonnasmith
         {
             ButtonManager.PolygonFinderButtonClick += OnPolygonFinderButtonClick;
             ButtonManager.PolygonSaveButtonClick += OnPolygonSaveButtonClick;
+            ButtonManager.PolygonSimuleButtonClick += OnPolygonSimuleButtonClick;
         }
 
         private void OnDisable()
         {
             ButtonManager.PolygonFinderButtonClick -= OnPolygonFinderButtonClick;
             ButtonManager.PolygonSaveButtonClick -= OnPolygonSaveButtonClick;
+            ButtonManager.PolygonSimuleButtonClick -= OnPolygonSimuleButtonClick;
+        }
+
+        //============================================================================
+
+        private void OnPolygonSimuleButtonClick()
+        {
+            PolygonGenerateData?.Invoke(lineForwardDataList);
+
+            TextureEditor();
         }
 
         //============================================================================
@@ -108,9 +118,7 @@ namespace Wonnasmith
 
         private void OnPolygonSaveButtonClick()
         {
-            PolygonSaveData?.Invoke(lineForwardDataList);
-
-            TextureEditor();
+            MountSaveData?.Invoke(mount, texture2D);
         }
 
         //============================================================================

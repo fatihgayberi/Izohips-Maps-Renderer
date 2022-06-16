@@ -26,7 +26,6 @@ namespace Wonnasmith
             public KeyCode polygonFinder_BUTTON;
             public KeyCode polygonSimule_BUTTON;
             public KeyCode polygonsSave_BUTTON;
-            public KeyCode planeResize_BUTTON;
         }
 
         public BUTTON_MANAGER_Buttons Button_Manager_Buttons;
@@ -35,21 +34,20 @@ namespace Wonnasmith
 
         private void Update()
         {
-            Test_PlaneResize();
-            Test_PolygonFinder();
             Test_PolygonSimule();
+            Test_PolygonFinder();
             Test_PolygonsSave();
         }
 
         //============================================================================
 
-        private void Test_PlaneResize()
+        private void Test_PolygonSimule()
         {
-            if (Input.GetKeyDown(Button_Manager_Buttons.planeResize_BUTTON))
+            if (Input.GetKeyDown(Button_Manager_Buttons.polygonSimule_BUTTON))
             {
-                planeResizeButtonClick?.Invoke();
+                PolygonSimuleButtonClick?.Invoke();
 
-                Debug.Log("<color=blue>:::Test_PlaneResize:::</color>");
+                Debug.Log("<color=blue>:::Test_PolygonSimule:::</color>");
             }
         }
 
@@ -62,18 +60,6 @@ namespace Wonnasmith
                 PolygonFinderButtonClick?.Invoke();
 
                 Debug.Log("<color=blue>:::Test_PolygonFinder:::</color>");
-            }
-        }
-
-        //============================================================================
-
-        private void Test_PolygonSimule()
-        {
-            if (Input.GetKeyDown(Button_Manager_Buttons.polygonSimule_BUTTON))
-            {
-                PolygonSimuleButtonClick?.Invoke();
-
-                Debug.Log("<color=blue>:::Test_PolygonSimule:::</color>");
             }
         }
 
