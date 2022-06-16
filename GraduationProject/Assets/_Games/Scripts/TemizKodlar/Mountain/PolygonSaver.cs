@@ -12,8 +12,11 @@ namespace Wonnasmith
 
         [SerializeField] private Transform polygonParentTR;
         [SerializeField] private GameObject testObj;
+        [SerializeField] private float height;
 
         private List<Vector3> positionList = new List<Vector3>();
+
+        private int lineNum = 1;
 
         //============================================================================
 
@@ -41,9 +44,11 @@ namespace Wonnasmith
 
                 if (lineForwardData != null)
                 {
-                    LineDataTestObjectGenerator(lineForwardData.LineDatasList);
+                    LineDataTestObjectGenerator(lineForwardData.LineDatasList, lineNum);
                 }
             }
+
+            lineNum++;
         }
 
         //============================================================================
@@ -70,7 +75,7 @@ namespace Wonnasmith
 
         //============================================================================
 
-        private void LineDataTestObjectGenerator(List<PolygonFinder.LineData> lineDataList)
+        private void LineDataTestObjectGenerator(List<PolygonFinder.LineData> lineDataList, int lineNum)
         {
             if (lineDataList == null)
             {
@@ -101,6 +106,7 @@ namespace Wonnasmith
                                     if (elementIdxData != null)
                                     {
                                         Vector3 pos = Pixel2Vector3Position(lineDataList[i].elementList[j]);
+                                        pos.y = lineNum * height;
 
                                         TestObjectGenerator(pos, lineDataList[i].elementList[j].row, lineDataList[i].elementList[j].column);
 

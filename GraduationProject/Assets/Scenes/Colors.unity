@@ -1000,7 +1000,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1527669447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1198,3 +1198,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   polygonParentTR: {fileID: 1799371869}
   testObj: {fileID: 5989822272665228253, guid: d7b33a21bd1fd124b90135afad8761ae, type: 3}
+  height: 10
