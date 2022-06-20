@@ -3,7 +3,7 @@ Shader "Wonnasimth_Object/EdgeObject"
     Properties
     {        
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
-        _MapThreshold ("MapThreshold", Range(0, 1)) = 0
+        _MapThreshold ("MapThreshold", float) = 0
     }
     SubShader
     {

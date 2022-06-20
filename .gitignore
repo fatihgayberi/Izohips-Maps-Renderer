@@ -42,7 +42,6 @@
 *.pdb
 *.mdb
 *.opendb
-*.meta
 *.VC.db
 
 # Unity3D generated meta files
