@@ -19,9 +19,11 @@ https://user-images.githubusercontent.com/46620361/209398769-63f7338a-3a82-4d49-
 
 ==== 1. Texture ==== 
   * Fotoğrafın orijinal halidir.
+
 ==== 2. Texture ====
   * Fotoğrafın gray formatıdır.
   * Texture üzerindeki shader sayesinde gray formata geçiş sağlamıştır.
+
 ==== 3. Texture ====
   * Fotoğrafın Siyah-Beyaz halidir.
   * Texture üzerindeki shader ile beraber Siyah-Beyaz formata geçiş sağlamıştır.
