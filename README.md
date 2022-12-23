@@ -17,8 +17,8 @@ https://user-images.githubusercontent.com/46620361/209395065-d1b04806-1eba-4848-
 
 https://user-images.githubusercontent.com/46620361/209398769-63f7338a-3a82-4d49-88d5-2e6d6c9c6095.mp4
 
-==== 1. Texture ====
-  *  Fotoğrafın orijinal halidir.
+==== 1. Texture ==== 
+  * Fotoğrafın orijinal halidir.
 ==== 2. Texture ====
   * Fotoğrafın gray formatıdır.
   * Texture üzerindeki shader sayesinde gray formata geçiş sağlamıştır.
